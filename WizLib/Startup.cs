@@ -30,6 +30,7 @@ namespace WizLib
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"));
             });
+
             services.AddControllersWithViews();
         }
 
