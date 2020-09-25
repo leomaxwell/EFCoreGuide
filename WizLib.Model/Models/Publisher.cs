@@ -10,7 +10,7 @@ namespace WizLib.Model.Models
     public class Publisher
     {
         [Key]
-        public int Publisher_id { get; set; }
+        public int Publisher_Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

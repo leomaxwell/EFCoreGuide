@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WizLib.DataAccess.Data;
 
 namespace WizLib.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200924113612_ModelCorrections")]
+    partial class ModelCorrections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace WizLib.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookDetail_Id")
+                    b.Property<int>("BookDetail_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("ISBN")
@@ -73,8 +75,7 @@ namespace WizLib.DataAccess.Migrations
                     b.HasKey("Book_Id");
 
                     b.HasIndex("BookDetail_Id")
-                        .IsUnique()
-                        .HasFilter("[BookDetail_Id] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("Publisher_Id");
 
@@ -290,7 +291,9 @@ namespace WizLib.DataAccess.Migrations
                 {
                     b.HasOne("WizLib.Model.Models.BookDetail", "BookDetail")
                         .WithOne("Book")
-                        .HasForeignKey("WizLib.Model.Models.Book", "BookDetail_Id");
+                        .HasForeignKey("WizLib.Model.Models.Book", "BookDetail_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WizLib.Model.Models.Publisher", "Publisher")
                         .WithMany("Books")
